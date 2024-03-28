@@ -43,7 +43,7 @@ function DynamicNode(args)
 end
 
 ls.add_snippets("typescriptreact", {
-    s("snip", fmt([[
+    s("tsrfce", fmt([[
     import React from "react";
 
     type Props = {{
@@ -61,13 +61,15 @@ ls.add_snippets("typescriptreact", {
     export default {}
     ]], {
         d(1, DynamicNode),
-        i(2, 'Hello World'),
+        rep(1),
         rep(1)
-    }))
+    })),
+
+    s('clog', fmt("console.log({})", i(1)))
 })
 
 ls.add_snippets("javascriptreact", {
-    s("snip", fmt([[
+    s("jsrefce", fmt([[
     export default function {}() {{
         return (
             <>
@@ -77,6 +79,6 @@ ls.add_snippets("javascriptreact", {
     }}
     ]], {
         d(1, DynamicNode),
-        i(2, "Hello World"),
+        rep(1),
     }))
 })
