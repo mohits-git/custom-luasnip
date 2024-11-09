@@ -1,6 +1,7 @@
 local ls = require 'luasnip'
 local extras = require 'luasnip.extras'
 
+local t = ls.text_node
 local s = ls.snippet
 local i = ls.insert_node
 local rep = extras.rep
@@ -51,11 +52,22 @@ function DynamicNode(args)
   end
 end
 
+function CapitalizeNode(args)
+  local str = args[1][1]
+  if type(str) == 'string' then
+    return sn(nil, {
+      t(str:sub(1, 1):upper() .. str:sub(2)),
+    })
+  else
+    return sn(nil, { t '' })
+  end
+end
+
 -- Inheritence (sort of) -------------------------
 -- typescriptreact -> javascriptreact -> typescript -> javascript
-ls.filetype_extend('typescriptreact', { 'javascriptreact', 'typescript', 'javascript' });
-ls.filetype_extend('javascriptreact', { 'typescript', 'javascript' });
-ls.filetype_extend('typescript', { 'javascript' });
+ls.filetype_extend('typescriptreact', { 'javascriptreact', 'typescript', 'javascript' })
+ls.filetype_extend('javascriptreact', { 'typescript', 'javascript' })
+ls.filetype_extend('typescript', { 'javascript' })
 --------------------------------------------------
 
 -- React Snippets
@@ -85,7 +97,7 @@ ls.add_snippets('typescriptreact', {
     )
   ),
 })
- -- older version
+-- older version
 ls.add_snippets('typescriptreact', {
   s(
     'tsrfce2',
@@ -136,6 +148,38 @@ ls.add_snippets('javascriptreact', {
     )
   ),
 })
+
+ls.add_snippets('javascript', {
+  s(
+    'useStateSnip',
+    fmt(
+      [[
+const [{}, set{}] = useState()
+    ]],
+      {
+        i(1, 'state'),
+        d(2, CapitalizeNode, { 1 }),
+      }
+    )
+  ),
+})
+
+ls.add_snippets('javascript', {
+  s(
+    'useEffectSnip',
+    fmt(
+      [[
+useEffect(() => {{
+  {}
+}}, [])
+    ]],
+      {
+        i(1, ''),
+      }
+    )
+  ),
+})
+
 --------------------------------------------------
 
 -- React Native snippet ------------------------
